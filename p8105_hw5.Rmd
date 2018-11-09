@@ -41,15 +41,19 @@ read_fx = function(data){
 }
 ```
 
+Creating the dataframe: 
+
 ```{r, message = FALSE}
 df_patient = listed_files %>% mutate(data =  purrr::map(listed_files$filepath, read_fx)) %>% 
   unnest() %>% 
   select(-filepath) %>% 
   gather(key = week, value = value, week_1:week_8) %>% 
   mutate(id = str_replace(filename, ".csv",""),
-         week = as.numeric(str_replace(week, "week_", ""))) 
+         week = as.numeric(str_replace(week, "week_", ""))) %>% 
+  separate(id, into = c("group", "id"), sep = "_") %>% 
+  mutate(id = as.factor(id))
 
-df_patient
+
 ```
 
 ### Problem 2: Crime in Large Cities 
