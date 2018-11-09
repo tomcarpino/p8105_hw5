@@ -184,14 +184,33 @@ $(document).ready(function () {
   read_csv(file = data)
 }</code></pre>
 <p>Creating the dataframe:</p>
-<pre class="r"><code>df_patient = listed_files %&gt;% mutate(data =  purrr::map(listed_files$filepath, read_fx)) %&gt;% 
+<pre class="r"><code>df_patient = 
+  listed_files %&gt;% 
+  mutate(data =  purrr::map(listed_files$filepath, read_fx)) %&gt;% 
   unnest() %&gt;% 
   select(-filepath) %&gt;% 
   gather(key = week, value = value, week_1:week_8) %&gt;% 
-  mutate(id = str_replace(filename, &quot;.csv&quot;,&quot;&quot;),
-         week = as.numeric(str_replace(week, &quot;week_&quot;, &quot;&quot;))) %&gt;% 
+  mutate(
+    id = str_replace(filename, &quot;.csv&quot;,&quot;&quot;), 
+    week = as.numeric(str_replace(week, &quot;week_&quot;, &quot;&quot;))) %&gt;% 
   separate(id, into = c(&quot;group&quot;, &quot;id&quot;), sep = &quot;_&quot;) %&gt;% 
-  mutate(id = as.factor(id))</code></pre>
+  mutate(id = as.factor(id))
+
+df_patient</code></pre>
+<pre><code>## # A tibble: 160 x 5
+##    filename    week value group id   
+##    &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt; &lt;fct&gt;
+##  1 con_01.csv     1  0.2  con   01   
+##  2 con_02.csv     1  1.13 con   02   
+##  3 con_03.csv     1  1.77 con   03   
+##  4 con_04.csv     1  1.04 con   04   
+##  5 con_05.csv     1  0.47 con   05   
+##  6 con_06.csv     1  2.37 con   06   
+##  7 con_07.csv     1  0.03 con   07   
+##  8 con_08.csv     1 -0.08 con   08   
+##  9 con_09.csv     1  0.08 con   09   
+## 10 con_10.csv     1  2.14 con   10   
+## # ... with 150 more rows</code></pre>
 </div>
 <div id="problem-2-crime-in-large-cities" class="section level3">
 <h3>Problem 2: Crime in Large Cities</h3>
@@ -204,14 +223,6 @@ $(document).ready(function () {
 <li>Creating plots with CIs</li>
 </ul></li>
 </ul>
-<pre class="r"><code>summary(cars)</code></pre>
-<pre><code>##      speed           dist       
-##  Min.   : 4.0   Min.   :  2.00  
-##  1st Qu.:12.0   1st Qu.: 26.00  
-##  Median :15.0   Median : 36.00  
-##  Mean   :15.4   Mean   : 42.98  
-##  3rd Qu.:19.0   3rd Qu.: 56.00  
-##  Max.   :25.0   Max.   :120.00</code></pre>
 </div>
 <div id="including-plots" class="section level2">
 <h2>Including Plots</h2>
