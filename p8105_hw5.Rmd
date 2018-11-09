@@ -19,12 +19,17 @@ knitr::opts_chunk$set(echo = TRUE)
     + Tidying the dataset and creating a usable dataframe 
     + Creating a spaghetti plot 
 
-Loading Packages: 
+* I loaded the following packages, using the suppressMessages function: 
+    + tidyverse
+    + plotly
+    + rvest
+    + magrittr
+
 ```{r echo = FALSE}
-library(tidyverse)
-library(plotly)
-library(rvest)
-library(magrittr)
+suppressMessages(library(tidyverse))
+suppressMessages(library(plotly))
+suppressMessages(library(rvest))
+suppressMessages(library(magrittr))
 ```
 
 Listing Files 
