@@ -41,7 +41,7 @@ read_fx = function(data){
 }
 ```
 
-Creating the dataframe: 
+Creating the dataframe using a `map` function: 
 
 ```{r, message = FALSE}
 df_patient = 
@@ -58,6 +58,23 @@ df_patient =
 
 df_patient
 ```
+
+Creating the Spaghetti Plot: 
+```{r spaghetti}
+ggplot(
+  df_patient, 
+  aes(x = week, y = value, color = id, group = id)) + 
+  geom_line() +
+  facet_grid(~group) +
+  labs(
+    title = "Observations Over 8 Weeks", 
+    x = "Week", 
+    y = "Observation", 
+    color = "Participant") + 
+    viridis::scale_color_viridis(discrete = TRUE)
+```
+
+Here one can observe a stark difference in outcomes between the control group, con, and the experimental group, exp. It is clear that the values for the control group remain relatively constant between -1.25 and 3.75 over the course of the 8 weeks, whereas the observation values steadily increase over time from weeks 0 to 8 in the experimental group.  
 
 ### Problem 2: Crime in Large Cities 
 
