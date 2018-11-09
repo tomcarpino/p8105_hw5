@@ -81,7 +81,7 @@ ggplot(
 
 Here one can observe a stark difference in outcomes between the control group, con, and the experimental group, exp. It is clear that the values for the control group remain relatively constant between -1.25 and 3.75 over the course of the 8 weeks, whereas the observation values steadily increase over time from weeks 0 to 8 in the experimental group.  
 
-### Problem 2: Crime in Large Cities 
+### Problem 2: Homicide in Large Cities 
 
 * The format of this problem involves the following: 
     + Using the existing repo
@@ -95,4 +95,31 @@ homicide =
   mutate(city_state = str_c(city, ",", " ", state))
 ```
 
-The dataset pulled from the _Washington Post_ has **`r nrow(homicide)`** observations across **`r ncol(homicide)`** variables that include information about the location of the homicide and the victim (first and last name, age, sex, race).  
+#### Description 
+The dataset pulled from the _Washington Post_ has **`r nrow(homicide)`** observations across **`r ncol(homicide)`** variables that include information about the location (latitude and longitude) of the homicide and the victim (first and last name, age, sex, race).  
+
+#### Estimating Homicide Rates in Baltimore
+
+Here I am summarizing within the cities the disposition variable (closed or open cases with no arrests): 
+```{r}
+sum_cities = homicide %>% 
+  mutate(disposition = fct_collapse(homicide$disposition, "No arrest" = c("Closed without arrest","Open/No arrest"))) %>% group_by(city_state) %>% 
+  count(disposition) %>% 
+  spread(key = disposition, value = n) %>% 
+  janitor::clean_names() %>% 
+  mutate(total = closed_by_arrest + no_arrest)
+```
+
+Here I am using the prop.test function to estimate the propportion of homicides that are unsolved in Baltimore using the *sum_cities* dataframe I just created. 
+
+```{r}
+bmore = sum_cities %>% filter(city_state == "Baltimore, MD")
+bmore_disp = prop.test(bmore$no_arrest, bmore$total) %>% 
+  broom::tidy() %>% 
+  select(estimate, conf.low, conf.high) %>% 
+  janitor::clean_names() %>% 
+  knitr::kable()
+bmore_disp
+```
+
+This finds that approximately 64.55% of all of the cases of homicides in Baltimore do not have any arrests, with the lower estimate being 62.75% and the upper estimate being 66.31%. This is scary. 
