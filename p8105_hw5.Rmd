@@ -1,6 +1,6 @@
 ---
 title: "p8105_hw5"
-author: "Tom"
+author: "Tom Carpino, tc2899"
 date: "November 8, 2018"
 output: html_document
 ---
@@ -11,11 +11,22 @@ This homework flexes our skills on iteration and graphing.
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## R Markdown
+### Problem 1: Case Control Study 
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+* The format of this problem involves the following: 
+    + Importing the dataset
+    + Tidying the dataset and creating a usable dataframe 
+    + Creating a spaghetti plot 
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+### Problem 2: Crime in Large Cities 
+
+* The format of this problem involves the following: 
+    + Using the existing repo
+    + Describing data 
+    + Using functions to estimate crime rates
+    + Creating plots with CIs
+
 
 ```{r cars}
 summary(cars)
