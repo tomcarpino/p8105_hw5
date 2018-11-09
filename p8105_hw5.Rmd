@@ -18,6 +18,26 @@ knitr::opts_chunk$set(echo = TRUE)
     + Tidying the dataset and creating a usable dataframe 
     + Creating a spaghetti plot 
 
+Loading Packages: 
+```{r}
+library(tidyverse)
+library(plotly)
+library(rvest)
+```
+
+Listing Files 
+```{r}
+listing_files = tibble(filepath = list.files("./data/", pattern = "*.csv", full.names = TRUE),
+                         filename = basename(filepath))
+```
+
+Writing a function to read the data: 
+
+```{r}
+read_fx = function(data){
+  read_csv(file = data)
+}
+```
 
 ### Problem 2: Crime in Large Cities 
 
