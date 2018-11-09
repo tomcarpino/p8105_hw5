@@ -140,7 +140,6 @@ $(document).ready(function () {
 </ul></li>
 </ul>
 <p>Loading Packages:</p>
-<pre class="r"><code>library(tidyverse)</code></pre>
 <pre><code>## -- Attaching packages ----------------------------------------------------------------------------------------- tidyverse 1.2.1 --</code></pre>
 <pre><code>## v ggplot2 3.0.0     v purrr   0.2.5
 ## v tibble  1.4.2     v dplyr   0.7.6
@@ -149,7 +148,6 @@ $(document).ready(function () {
 <pre><code>## -- Conflicts -------------------------------------------------------------------------------------------- tidyverse_conflicts() --
 ## x dplyr::filter() masks stats::filter()
 ## x dplyr::lag()    masks stats::lag()</code></pre>
-<pre class="r"><code>library(plotly)</code></pre>
 <pre><code>## 
 ## Attaching package: 'plotly'</code></pre>
 <pre><code>## The following object is masked from 'package:ggplot2':
@@ -161,7 +159,6 @@ $(document).ready(function () {
 <pre><code>## The following object is masked from 'package:graphics':
 ## 
 ##     layout</code></pre>
-<pre class="r"><code>library(rvest)</code></pre>
 <pre><code>## Loading required package: xml2</code></pre>
 <pre><code>## 
 ## Attaching package: 'rvest'</code></pre>
@@ -171,13 +168,43 @@ $(document).ready(function () {
 <pre><code>## The following object is masked from 'package:readr':
 ## 
 ##     guess_encoding</code></pre>
+<pre><code>## 
+## Attaching package: 'magrittr'</code></pre>
+<pre><code>## The following object is masked from 'package:purrr':
+## 
+##     set_names</code></pre>
+<pre><code>## The following object is masked from 'package:tidyr':
+## 
+##     extract</code></pre>
 <p>Listing Files</p>
-<pre class="r"><code>listing_files = tibble(filepath = list.files(&quot;./data/&quot;, pattern = &quot;*.csv&quot;, full.names = TRUE),
+<pre class="r"><code>listed_files = tibble(filepath = list.files(&quot;./data/&quot;, pattern = &quot;*.csv&quot;, full.names = TRUE),
                          filename = basename(filepath))</code></pre>
 <p>Writing a function to read the data:</p>
 <pre class="r"><code>read_fx = function(data){
   read_csv(file = data)
 }</code></pre>
+<pre class="r"><code>df_patient = listed_files %&gt;% mutate(data =  purrr::map(listed_files$filepath, read_fx)) %&gt;% 
+  unnest() %&gt;% 
+  select(-filepath) %&gt;% 
+  gather(key = week, value = value, week_1:week_8) %&gt;% 
+  mutate(id = str_replace(filename, &quot;.csv&quot;,&quot;&quot;),
+         week = as.numeric(str_replace(week, &quot;week_&quot;, &quot;&quot;))) 
+
+df_patient</code></pre>
+<pre><code>## # A tibble: 160 x 4
+##    filename    week value id    
+##    &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt; 
+##  1 con_01.csv     1  0.2  con_01
+##  2 con_02.csv     1  1.13 con_02
+##  3 con_03.csv     1  1.77 con_03
+##  4 con_04.csv     1  1.04 con_04
+##  5 con_05.csv     1  0.47 con_05
+##  6 con_06.csv     1  2.37 con_06
+##  7 con_07.csv     1  0.03 con_07
+##  8 con_08.csv     1 -0.08 con_08
+##  9 con_09.csv     1  0.08 con_09
+## 10 con_10.csv     1  2.14 con_10
+## # ... with 150 more rows</code></pre>
 </div>
 <div id="problem-2-crime-in-large-cities" class="section level3">
 <h3>Problem 2: Crime in Large Cities</h3>
