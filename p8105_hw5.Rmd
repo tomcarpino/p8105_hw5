@@ -123,3 +123,22 @@ bmore_disp
 ```
 
 This finds that approximately 64.55% of all of the cases of homicides in Baltimore do not have any arrests, with the lower estimate being 62.75% and the upper estimate being 66.31%. This is scary. 
+
+```{r all_cities}
+
+prop_test = function(unsolved, sum_cities) {
+  prop.test(unsolved, sum_cities) %>% 
+    broom::tidy() %>% 
+    select(estimate, conf.low, conf.high)
+}
+
+all_cities_unnested = sum_cities %>% group_by(city_state) %>% nest() %>% 
+  mutate(estimate_ci = map(data, prop_test)) %>% unnest() %>% 
+  mutate(city_state = reorder(city_state, estimate)) %>% janitor::clean_names()
+
+```
+
+
+```
+
+
