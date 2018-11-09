@@ -89,12 +89,10 @@ Here one can observe a stark difference in outcomes between the control group, c
     + Using functions to estimate crime rates
     + Creating plots with CIs
 
-## Including Plots
-
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
+```{r homicide_data}
+homicide = 
+  read_csv("https://raw.githubusercontent.com/washingtonpost/data-homicides/master/homicide-data.csv", col_names = TRUE) %>% 
+  mutate(city_state = str_c(city, ",", " ", state))
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+The dataset pulled from the _Washington Post_ has **`r nrow(homicide)`** observations across **`r ncol(homicide)`** variables that include information about the location of the homicide and the victim (first and last name, age, sex, race).  
